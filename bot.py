@@ -156,7 +156,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         response = await hlr_lookup(phone)
-logger.info(f"AlphaSMS response: {response}")
+        logger.info(f"AlphaSMS response: {response}")
         result = format_result(response, phone)
         await msg.edit_text(result, parse_mode="Markdown")
     except httpx.HTTPStatusError as e:

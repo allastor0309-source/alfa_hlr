@@ -22,12 +22,20 @@ FLAG_MAP = {
 }
 
 STATUS_MAP = {
-    "DELIVERED":    ("🟢", "SIM активна та в мережі"),
-    "UNDELIVERED":  ("🟡", "SIM поза мережею (телефон вимкнено або немає сигналу)"),
-    "NOT_FOUND":    ("⚫", "Номер не існує або не зареєстрований"),
-    "REJECTED":     ("🔴", "Запит відхилено оператором"),
-    "EXPIRED":      ("⚠️", "Час очікування вичерпано"),
-    "UNKNOWN":      ("⚪", "Статус невідомий"),
+    "DELIVERED":                   ("🟢", "Номер активний та доступний"),
+    "UNDELIVERABLE":               ("🔴", "Номер недоступний (вимкнено або поза зоною)"),
+    "INVALID DESTINATION ADDRESS": ("⚫", "Номер не існує"),
+    "INVALID_DESTINATION_ADDRESS": ("⚫", "Номер не існує"),
+    "NO ROUTE":                    ("⚠️", "Проблема маршрутизації до оператора"),
+    "NO_ROUTE":                    ("⚠️", "Проблема маршрутизації до оператора"),
+    "EXPIRED":                     ("⏱️", "Час запиту вичерпано"),
+    "REJECTED":                    ("🔴", "Запит відхилено оператором"),
+    "FILTERED":                    ("🚫", "Заблоковано фільтром"),
+    "QUEUED":                      ("🕐", "В черзі, очікуйте..."),
+    "ACCEPTED":                    ("🕐", "Прийнято, обробляється..."),
+    "SIM FULL":                    ("📵", "Пам'ять SIM заповнена"),
+    "SIM_FULL":                    ("📵", "Пам'ять SIM заповнена"),
+    "UNKNOWN":                     ("⚪", "Статус невідомий"),
 }
 
 def clean_phone(text: str) -> str:
@@ -156,7 +164,6 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         response = await hlr_lookup(phone)
-        logger.info(f"AlphaSMS response: {response}")
         result = format_result(response, phone)
         await msg.edit_text(result, parse_mode="Markdown")
     except httpx.HTTPStatusError as e:
